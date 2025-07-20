@@ -1,57 +1,60 @@
-// 🔁 Click logic with dynamic override
-let clicked = false;
-const adLink = window.customLinks?.adLink || "https://viralvideoclips18.blogspot.com/";
-const realLink = window.customLinks?.realLink || "https://1024terabox.com/s/1hCVge-OY0eysBcI_lYkO_A";
+document.addEventListener("DOMContentLoaded", () => {
+  const adLink = window.customLinks?.adLink || "#";
+  const realLink = window.customLinks?.realLink || "#";
+  const downloadLink = window.customLinks?.downloadLink || "#";
 
-document.getElementById("clickNowBtn").addEventListener("click", function () {
-  if (!clicked) {
-    clicked = true;
-    window.location.href = adLink;
-  } else {
-    window.location.href = realLink;
+  let clicked = false;
+
+  const clickBtn = document.getElementById("clickNowBtn");
+  if (clickBtn) {
+    clickBtn.addEventListener("click", () => {
+      if (!clicked) {
+        clicked = true;
+        window.location.href = adLink;
+      } else {
+        window.location.href = realLink;
+      }
+    });
   }
-});
 
-// 📥 Download with dynamic link
-const downloadBtn = document.getElementById('downloadBtn');
-const progressBar = document.getElementById('progressBar');
-const btnText = document.getElementById('btnText');
-const borderRect = document.querySelector('.circle-border-glow rect');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const progressBar = document.getElementById('progressBar');
+  const btnText = document.getElementById('btnText');
+  const borderRect = document.querySelector('.circle-border-glow rect');
 
-const finalDownloadLink = window.customLinks?.finalDownloadLink || "https://1024terabox.com/s/1V7b15gvlFGDXA9eCDH8CMg";
+  let downloading = false;
 
-let downloading = false;
+  downloadBtn.addEventListener('click', () => {
+    if (downloading) return;
+    downloading = true;
 
-downloadBtn.addEventListener('click', () => {
-  if (downloading) return;
-  downloading = true;
+    let progress = 0;
+    const totalLength = 612;
 
-  let progress = 0;
-  const totalLength = 612;
+    const interval = setInterval(() => {
+      progress += 2;
+      const offset = totalLength - (progress / 100) * totalLength;
 
-  const interval = setInterval(() => {
-    progress += 2;
-    const offset = totalLength - (progress / 100) * totalLength;
+      progressBar.style.width = progress + "%";
+      borderRect.style.strokeDashoffset = offset;
+      btnText.innerText = progress + " %";
 
-    progressBar.style.width = progress + "%";
-    borderRect.style.strokeDashoffset = offset;
-    btnText.innerText = progress + " %";
+      if (progress >= 100) {
+        clearInterval(interval);
+        btnText.innerText = "Download Ready!";
 
-    if (progress >= 100) {
-      clearInterval(interval);
-      btnText.innerText = "Download Ready!";
+        setTimeout(() => {
+          const a = document.createElement('a');
+          a.href = downloadLink;
+          a.download = "viral_clip.mp4";
+          a.click();
 
-      setTimeout(() => {
-        const a = document.createElement('a');
-        a.href = finalDownloadLink;
-        a.download = "viral_clip.mp4";
-        a.click();
-
-        btnText.innerText = "Download Again";
-        progressBar.style.width = "0%";
-        borderRect.style.strokeDashoffset = totalLength;
-        downloading = false;
-      }, 1000);
-    }
-  }, 100);
+          btnText.innerText = "Download Again";
+          progressBar.style.width = "0%";
+          borderRect.style.strokeDashoffset = totalLength;
+          downloading = false;
+        }, 1000);
+      }
+    }, 100);
+  });
 });
