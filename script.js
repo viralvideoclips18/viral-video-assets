@@ -1,7 +1,7 @@
-// 🔁 Click logic (Ad → Real)
+// 🔁 Click logic with dynamic override
 let clicked = false;
-const adLink = "https://viralvideoclips18.blogspot.com/";
-const realLink = "https://1024terabox.com/s/1hCVge-OY0eysBcI_lYkO_A";
+const adLink = window.customLinks?.adLink || "https://viralvideoclips18.blogspot.com/";
+const realLink = window.customLinks?.realLink || "https://1024terabox.com/s/1hCVge-OY0eysBcI_lYkO_A";
 
 document.getElementById("clickNowBtn").addEventListener("click", function () {
   if (!clicked) {
@@ -12,11 +12,13 @@ document.getElementById("clickNowBtn").addEventListener("click", function () {
   }
 });
 
-// 📥 Download with progress
+// 📥 Download with dynamic link
 const downloadBtn = document.getElementById('downloadBtn');
 const progressBar = document.getElementById('progressBar');
 const btnText = document.getElementById('btnText');
 const borderRect = document.querySelector('.circle-border-glow rect');
+
+const finalDownloadLink = window.customLinks?.finalDownloadLink || "https://1024terabox.com/s/1V7b15gvlFGDXA9eCDH8CMg";
 
 let downloading = false;
 
@@ -41,7 +43,7 @@ downloadBtn.addEventListener('click', () => {
 
       setTimeout(() => {
         const a = document.createElement('a');
-        a.href = "https://1024terabox.com/s/1V7b15gvlFGDXA9eCDH8CMg"; // 🎯 Replace with real file if needed
+        a.href = finalDownloadLink;
         a.download = "viral_clip.mp4";
         a.click();
 
